@@ -37,5 +37,17 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
-      # run tests!
+      # run tests
       - run: mvn integration-test
+
+      - run:
+         name: Save test results
+         command: |
+           mkdir -p ~/tests/
+           find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/tests/ \;
+         when: always
+
+      - store_test_results:
+         path: ~/tests
+
+
