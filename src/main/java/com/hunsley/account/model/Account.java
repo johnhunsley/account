@@ -17,6 +17,15 @@ public abstract class Account implements Serializable {
 
     protected Double value;
 
+    protected Double interestRate;
+
+    public Account() {}
+
+    public Account(final Double value, final Double interestRate) {
+        this.value = value;
+        this.interestRate = interestRate;
+    }
+
     public Long getAccountId() {
         return accountId;
     }
@@ -35,6 +44,14 @@ public abstract class Account implements Serializable {
 
     public void setUid(Integer uid) {
         this.uid = uid;
+    }
+
+    public Double getInterestRate() {
+        return interestRate;
+    }
+
+    public void setInterestRate(Double interestRate) {
+        this.interestRate = interestRate;
     }
 
     @Override

@@ -28,10 +28,8 @@ public class AccountRepositoryTest {
 
     @Test
     public void simpleWriteRead_CurrentAccount() {
-        CurrentAccount currentAccount = new CurrentAccount();
+        CurrentAccount currentAccount = new CurrentAccount(103.34, 1.50, 400.00);
         currentAccount.setUid(10);
-        currentAccount.setValue(103.34);
-        currentAccount.setOverdraftLimit(400.00);
         accountRepository.save(currentAccount);
         assertTrue(currentAccount.getAccountId() > 0);
         Long id = currentAccount.getAccountId();
@@ -46,10 +44,8 @@ public class AccountRepositoryTest {
 
     @Test
     public void simpleWriteRead_SavingsAccount() {
-        SavingsAccount savingsAccount = new SavingsAccount();
+        SavingsAccount savingsAccount = new SavingsAccount(103.34, 2.5, 200000.00);
         savingsAccount.setUid(10);
-        savingsAccount.setValue(103.34);
-        savingsAccount.setMaxDeposit(20000.00);
         accountRepository.save(savingsAccount);
         assertTrue(savingsAccount.getAccountId() > 0);
         Long id = savingsAccount.getAccountId();
