@@ -3,7 +3,10 @@ package com.hunsley.account.repository;
 import com.hunsley.account.model.Account;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +17,14 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @Profile("service")
 @RepositoryRestResource(collectionResourceRel = "accounts", path = "accounts")
 public interface AccountRepository extends PagingAndSortingRepository<Account, Long> {
+
+    /**
+     * <p>
+     *     GET accounts/seach/findByUid?uid=<uid>
+     * </p>
+     * @param uid
+     * @return a list of {@link Account} sub type instances
+     */
+    List<Account> findByUid(@Param("uid") Integer uid);
+
 }
