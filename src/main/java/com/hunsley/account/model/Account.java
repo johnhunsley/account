@@ -1,11 +1,22 @@
 package com.hunsley.account.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = CurrentAccount.class, name = "CurrentAccount"),
+        @JsonSubTypes.Type(value = SavingsAccount.class, name = "SavingAccount")
+})
 public abstract class Account implements Serializable {
     private static final long serialVersionUID = 42L;
 
