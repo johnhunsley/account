@@ -17,7 +17,8 @@ import java.util.List;
  *
  * {
  *     "_embedded": {
- *         "accounts": []
+ *         "currentAccounts": [],
+ *         "savingsAccounts": []
  *     }
  * }
  */
