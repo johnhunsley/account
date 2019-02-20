@@ -35,7 +35,7 @@ public class AccountRepositoryTest {
 
     @Test
     public void A_simpleWriteRead_CurrentAccount() {
-        CurrentAccount currentAccount = new CurrentAccount(103.34, 1.50, 400.00);
+        CurrentAccount currentAccount = new CurrentAccount(10, 103.34, 1.50, 400.00);
         currentAccount.setUid(uid);
         accountRepository.save(currentAccount);
         assertTrue(currentAccount.getAccountId() > 0);
@@ -51,7 +51,7 @@ public class AccountRepositoryTest {
 
     @Test
     public void B_simpleWriteRead_SavingsAccount() {
-        SavingsAccount savingsAccount = new SavingsAccount(103.34, 2.5, 200000.00);
+        SavingsAccount savingsAccount = new SavingsAccount(10, 103.34, 2.5, 200000.00);
         savingsAccount.setUid(uid);
         accountRepository.save(savingsAccount);
         assertTrue(savingsAccount.getAccountId() > 0);
@@ -65,8 +65,15 @@ public class AccountRepositoryTest {
 
     }
 
+    /**
+     * add another Account sub type instance which is not owned by the same uid
+     */
     @Test
     public void C_testFindByUid() {
+        SavingsAccount savingsAccount = new SavingsAccount(10, 103.34, 2.5, 200000.00);
+        savingsAccount.setUid(101);
+        accountRepository.save(savingsAccount);
+
         List<Account> accounts = accountRepository.findByUid(uid);
         assertEquals(2, accounts.size());
     }

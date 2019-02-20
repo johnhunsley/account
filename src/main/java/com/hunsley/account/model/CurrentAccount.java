@@ -11,8 +11,8 @@ public class CurrentAccount extends Account implements Serializable {
 
     public CurrentAccount() {}
 
-    public CurrentAccount(final Double value, final Double interestRate, final Double overdraftLimit) {
-        super(value, interestRate);
+    public CurrentAccount(Integer uid, Double value, Double interestRate, Double overdraftLimit) {
+        super(uid, value, interestRate);
         this.overdraftLimit = overdraftLimit;
     }
 

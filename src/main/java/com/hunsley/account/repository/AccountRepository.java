@@ -20,7 +20,7 @@ public interface AccountRepository extends PagingAndSortingRepository<Account, L
 
     /**
      * <p>
-     *     GET accounts/seach/findByUid?uid=<uid>
+     *     GET accounts/search/findByUid?uid=<uid>
      * </p>
      * @param uid
      * @return a list of {@link Account} sub type instances

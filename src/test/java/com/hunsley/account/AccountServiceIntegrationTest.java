@@ -3,11 +3,14 @@ package com.hunsley.account;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hunsley.account.model.Account;
+import com.hunsley.account.model.AccountsResponse;
 import com.hunsley.account.model.CurrentAccount;
 import com.hunsley.account.model.SavingsAccount;
 import com.hunsley.account.repository.AccountRepository;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,18 +19,17 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Iterator;
-
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("service")
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AccountServiceIntegrationTest {
 
     @Autowired
@@ -36,10 +38,12 @@ public class AccountServiceIntegrationTest {
     @Autowired
     private AccountRepository accountRepository;
 
+    final int uid = 10;
+
     @Test
-    public void testSaveAccounts() throws Exception {
-        CurrentAccount currentAccount = new CurrentAccount(103.34, 1.50, 400.00);
-        SavingsAccount savingsAccount = new SavingsAccount(103.34, 2.5, 200000.00);
+    public void A_testSaveAccounts() throws Exception {
+        CurrentAccount currentAccount = new CurrentAccount(uid, 103.34, 1.50, 400.00);
+        SavingsAccount savingsAccount = new SavingsAccount(uid, 103.34, 2.5, 200000.00);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.enableDefaultTyping();
@@ -63,6 +67,41 @@ public class AccountServiceIntegrationTest {
         }
 
         assertEquals(2, count);
+    }
 
+    /**
+     * GET accounts/search/findByUid?uid=<uid>
+     */
+    @Test
+    public void B_testFindAccountsByUid() throws Exception {
+        final byte[] responseBody = mockMvc.perform(get("/accounts/search/findByUid").param("uid", Integer.toString(uid)))
+                .andDo(print()).andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("$._embedded.currentAccounts[0].uid").value(uid))
+                .andExpect(jsonPath("$._embedded.savingsAccounts[0].uid").value(uid))
+                .andReturn().getResponse().getContentAsByteArray();
+        ObjectMapper mapper = new ObjectMapper();
+        AccountsResponse responsObj = mapper.readValue(responseBody, AccountsResponse.class);
+        assertEquals(responsObj.getEmbeddedCurrentAccounts().size(), 1);
+        assertEquals(responsObj.getEmbeddedSavingsAccounts().size(), 1);
+    }
+
+    /**
+     * GET accounts/search/findByUid?uid=<uid>
+     */
+    @Test
+    public void C_testFindAccountsByUid_WithUnownedAccount() throws Exception {
+        SavingsAccount savingsAccount = new SavingsAccount(101, 103.34, 2.5, 200000.00);
+        accountRepository.save(savingsAccount);
+
+        CurrentAccount currentAccount = new CurrentAccount(666, 103.34, 1.50, 400.00);
+        accountRepository.save(currentAccount);
+
+        final byte[] responseBody = mockMvc.perform(get("/accounts/search/findByUid").param("uid", Integer.toString(uid)))
+                .andDo(print()).andExpect(status().is2xxSuccessful())
+                .andReturn().getResponse().getContentAsByteArray();
+        ObjectMapper mapper = new ObjectMapper();
+        AccountsResponse responsObj = mapper.readValue(responseBody, AccountsResponse.class);
+        assertEquals(responsObj.getEmbeddedCurrentAccounts().size(), 1);
+        assertEquals(responsObj.getEmbeddedSavingsAccounts().size(), 1);
     }
 }

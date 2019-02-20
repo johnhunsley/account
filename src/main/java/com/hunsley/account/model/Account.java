@@ -32,7 +32,8 @@ public abstract class Account implements Serializable {
 
     public Account() {}
 
-    public Account(final Double value, final Double interestRate) {
+    public Account(final Integer uid, final Double value, final Double interestRate) {
+        this.uid = uid;
         this.value = value;
         this.interestRate = interestRate;
     }

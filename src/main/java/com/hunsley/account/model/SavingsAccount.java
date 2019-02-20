@@ -11,8 +11,8 @@ public class SavingsAccount extends Account implements Serializable {
 
     public SavingsAccount() {}
 
-    public SavingsAccount(final Double value, final Double interestRate, final Double maxDeposit) {
-        super(value, interestRate);
+    public SavingsAccount(Integer uid, Double value, Double interestRate, Double maxDeposit) {
+        super(uid, value, interestRate);
         this.maxDeposit = maxDeposit;
     }
 
