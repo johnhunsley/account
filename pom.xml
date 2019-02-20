@@ -10,7 +10,7 @@
         <version>2.1.0.RELEASE</version>
     </parent>
 
-    <groupId>com.johnhunsley.async</groupId>
+    <groupId>com.johnhunsley.account</groupId>
     <artifactId>spring-account-example</artifactId>
     <version>1.0-SNAPSHOT</version>
 
