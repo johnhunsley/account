@@ -15,7 +15,8 @@ import java.util.Objects;
         property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = CurrentAccount.class, name = "CurrentAccount"),
-        @JsonSubTypes.Type(value = SavingsAccount.class, name = "SavingAccount")
+        @JsonSubTypes.Type(value = SavingsAccount.class, name = "SavingsAccount"),
+        @JsonSubTypes.Type(value = LimitedAccount.class, name = "LimitedAccount")
 })
 public abstract class Account implements Serializable {
     private static final long serialVersionUID = 42L;

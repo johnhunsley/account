@@ -44,6 +44,11 @@ public class AccountsResponse<T> implements Serializable {
         if(embedded == null) embedded = new Embedded<>();
         return Collections.unmodifiableList(embedded.savingsAccounts);
     }
+
+    public List<T> getEmbeddedLimitedAccounts() {
+        if(embedded == null) embedded = new Embedded<>();
+        return Collections.unmodifiableList(embedded.limitedAccounts);
+    }
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -53,6 +58,9 @@ class Embedded<T> implements Serializable {
 
     @JsonProperty("savingsAccounts")
     List<T> savingsAccounts = new ArrayList<>();
+
+    @JsonProperty("limitedAccounts")
+    List<T> limitedAccounts = new ArrayList<>();
 
     public Embedded() {}
 
@@ -70,6 +78,14 @@ class Embedded<T> implements Serializable {
 
     public void setSavingsAccounts(List<T> savingsAccounts) {
         this.savingsAccounts = savingsAccounts;
+    }
+
+    public List<T> getLimitedAccounts() {
+        return limitedAccounts;
+    }
+
+    public void setLimitedAccounts(List<T> limitedAccounts) {
+        this.limitedAccounts = limitedAccounts;
     }
 }
 
