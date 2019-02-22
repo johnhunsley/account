@@ -8,6 +8,8 @@ public class LimitedAccount extends Account {
 
     private Double accountLimit;
 
+    public LimitedAccount() {}
+
     public LimitedAccount(Integer uid, Double value, Double interestRate, Double accountLimit) {
         super(uid, value, interestRate);
         this.accountLimit = accountLimit;

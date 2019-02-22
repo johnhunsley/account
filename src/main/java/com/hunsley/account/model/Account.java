@@ -23,13 +23,13 @@ public abstract class Account implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long accountId;
+    private Long accountId;
 
-    protected Integer uid;
+    private Integer uid;
 
-    protected Double value;
+    private double value;
 
-    protected Double interestRate;
+    private Double interestRate;
 
     public Account() {}
 
