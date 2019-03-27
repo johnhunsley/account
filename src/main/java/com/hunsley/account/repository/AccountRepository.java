@@ -32,7 +32,7 @@ public interface AccountRepository extends PagingAndSortingRepository<Account, L
      */
     List<Account> findByUid(@Param("uid") Integer uid);
 
-    @Query("select a from Account a where a.name like concat('%',:name,'%') order by a.name desc")
+    @Query("select a from Account a where lower(a.name) like concat('%', lower(:name),'%') order by a.name desc")
     Page<Account> findByName(@Param("name") String name, Pageable pageable);
 
 }
