@@ -106,7 +106,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <jvmArguments>
-                        -Dspring.profiles.active=service -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+                        -Dspring.profiles.active=service,prepopulated -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
                     </jvmArguments>
                 </configuration>
                 <executions>
