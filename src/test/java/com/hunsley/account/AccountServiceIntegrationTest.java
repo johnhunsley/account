@@ -90,10 +90,10 @@ public class AccountServiceIntegrationTest {
      */
     @Test
     public void C_testFindAccountsByUid_WithUnownedAccount() throws Exception {
-        SavingsAccount savingsAccount = new SavingsAccount(101, "MySavingsAccount", 103.34, 2.5, 200000.00);
+        SavingsAccount savingsAccount = new SavingsAccount(101, "MyBigSavingsAccount", 103.34, 2.5, 200000.00);
         accountRepository.save(savingsAccount);
 
-        CurrentAccount currentAccount = new CurrentAccount(666, "MyCurrentAccount", 103.34, 1.50, 400.00);
+        CurrentAccount currentAccount = new CurrentAccount(666, "MyLittleCurrentAccount", 103.34, 1.50, 400.00);
         accountRepository.save(currentAccount);
 
         final byte[] responseBody = mockMvc.perform(get("/accounts/search/findByUid").param("uid", Integer.toString(uid)))
@@ -103,5 +103,20 @@ public class AccountServiceIntegrationTest {
         AccountsResponse responsObj = mapper.readValue(responseBody, AccountsResponse.class);
         assertEquals(responsObj.getEmbeddedCurrentAccounts().size(), 1);
         assertEquals(responsObj.getEmbeddedSavingsAccounts().size(), 1);
+    }
+
+    @Test
+    public void D_testPageAccountsByNameQuery() throws Exception {
+        final byte[] responseBody = mockMvc.perform(get("/accounts/search/findByName")
+                    .param("name", "My")
+                    .param("page","0")
+                    .param("size", "20"))
+                .andDo(print())
+                .andReturn().getResponse().getContentAsByteArray();
+        ObjectMapper mapper = new ObjectMapper();
+        AccountsResponse responsObj = mapper.readValue(responseBody, AccountsResponse.class);
+        assertEquals(responsObj.getEmbeddedCurrentAccounts().size(), 2);
+        assertEquals(responsObj.getEmbeddedSavingsAccounts().size(), 2);
+
     }
 }
