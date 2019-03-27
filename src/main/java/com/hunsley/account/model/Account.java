@@ -27,14 +27,17 @@ public abstract class Account implements Serializable {
 
     private Integer uid;
 
+    private String name;
+
     private double value;
 
     private Double interestRate;
 
     public Account() {}
 
-    public Account(final Integer uid, final Double value, final Double interestRate) {
+    public Account(final Integer uid, final String name, final Double value, final Double interestRate) {
         this.uid = uid;
+        this.name = name;
         this.value = value;
         this.interestRate = interestRate;
     }
@@ -57,6 +60,14 @@ public abstract class Account implements Serializable {
 
     public void setUid(Integer uid) {
         this.uid = uid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Double getInterestRate() {
