@@ -10,8 +10,8 @@ public class LimitedAccount extends Account {
 
     public LimitedAccount() {}
 
-    public LimitedAccount(Integer uid, Double value, Double interestRate, Double accountLimit) {
-        super(uid, value, interestRate);
+    public LimitedAccount(Integer uid, String name, Double value, Double interestRate, Double accountLimit) {
+        super(uid, name, value, interestRate);
         this.accountLimit = accountLimit;
     }
 
