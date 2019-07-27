@@ -35,6 +35,15 @@ public class AccountsResponse<T> implements Serializable {
         this.embedded = embedded;
     }
 
+    public List<T> getAllAccounts() {
+        if(embedded == null) embedded = new Embedded<>();
+        List<T> allAccounts = new ArrayList<>();
+        allAccounts.addAll(getEmbeddedCurrentAccounts());
+        allAccounts.addAll(getEmbeddedSavingsAccounts());
+        allAccounts.addAll(getEmbeddedLimitedAccounts());
+        return Collections.unmodifiableList(allAccounts);
+    }
+
     public List<T> getEmbeddedCurrentAccounts() {
         if(embedded == null) embedded = new Embedded<>();
         return Collections.unmodifiableList(embedded.currentAccounts);
